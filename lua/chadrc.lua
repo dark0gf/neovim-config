@@ -14,11 +14,24 @@ M.base46 = {
 	-- },
 }
 
--- M.nvdash = { load_on_startup = true }
--- M.ui = {
---       tabufline = {
---          lazyload = false
---      }
--- }
+M.ui = {
+	statusline = {
+		modules = {
+			harpoon = function()
+				local ok, harpoon = pcall(require, "harpoon")
+				if not ok then return "" end
+				local list = harpoon:list()
+				local current = vim.fn.expand "%:p:."
+				for i, item in ipairs(list.items) do
+					if item.value == current then
+						return "%#St_gitIcons# ★ " .. i .. " "
+					end
+				end
+				return ""
+			end,
+		},
+		order = { "mode", "file", "git", "%=", "harpoon", "lsp_msg", "%=", "diagnostics", "lsp", "cursor", "cwd" },
+	},
+}
 
 return M
