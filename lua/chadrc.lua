@@ -7,11 +7,26 @@ local M = {}
 
 M.base46 = {
 	theme = "onedark",
-
-	-- hl_override = {
-	-- 	Comment = { italic = true },
-	-- 	["@comment"] = { italic = true },
-	-- },
+	changed_themes = {
+		onedark = {
+			base_30 = {
+				darker_black = "#101419",
+				black = "#14181f",
+				black2 = "#1a1e25",
+				one_bg = "#20252d",
+				one_bg2 = "#272d36",
+				one_bg3 = "#2d333d",
+				line = "#252b34",
+				statusline_bg = "#151920",
+				lightbg = "#232830",
+			},
+			base_16 = {
+				base00 = "#14181f",
+				base01 = "#272d36",
+				base02 = "#2d333d",
+			},
+		},
+	},
 }
 
 M.ui = {

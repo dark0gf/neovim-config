@@ -16,5 +16,10 @@ vim.opt.sessionoptions = {
 	"localoptions",
 }
 
+if vim.env.SSH_CLIENT or vim.env.SSH_TTY or vim.env.SSH_CONNECTION then
+	vim.g.clipboard = "osc52"
+	vim.opt.clipboard = "unnamedplus"
+end
+
 -- local o = vim.o
 -- o.cursorlineopt ='both' -- to enable cursorline!

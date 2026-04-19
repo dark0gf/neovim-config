@@ -4,25 +4,62 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
+local function move_cursor_keep_screen_position(delta)
+  local view = vim.fn.winsaveview()
+  local max_line = vim.api.nvim_buf_line_count(0)
+  local target_line = math.max(1, math.min(view.lnum + (delta * vim.v.count1), max_line))
+  local moved = target_line - view.lnum
+
+  if moved == 0 then
+    return
+  end
+
+  view.lnum = target_line
+  view.topline = math.max(1, view.topline + moved)
+  vim.fn.winrestview(view)
+end
+
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "Save file" })
 map("i", "<C-s>", "<Esc><cmd>w<CR>a", { desc = "Save file" })
-map("n", "<A-k>", "k<C-y>", { desc = "Up one line, keep cursor screen position" })
-map("n", "<A-j>", "j<C-e>", { desc = "Down one line, keep cursor screen position" })
+map("n", "<A-k>", function()
+  move_cursor_keep_screen_position(-1)
+end, { desc = "Up one line, keep cursor screen position" })
+map("n", "<A-j>", function()
+  move_cursor_keep_screen_position(1)
+end, { desc = "Down one line, keep cursor screen position" })
 
 -- Use LSP navigation (cross-file) instead of Vim's local-only defaults.
-map("n", "gd", vim.lsp.buf.definition, { desc = "LSP go to definition" }) -- go deeper, into code if that function
-map("n", "gi", vim.lsp.buf.implementation, { desc = "LSP go to implementation" })
-map("n", "gr", vim.lsp.buf.references, { desc = "LSP references" }) -- who uses this function
-map("n", "gD", vim.lsp.buf.declaration, { desc = "LSP go to declaration" })
+map("n", "<leader>r", vim.lsp.buf.references, { desc = "LSP references" }) -- who uses this function
+map("n", "<leader>d", vim.lsp.buf.definition, { desc = "LSP go to definition" }) -- go deeper, into code if that function
+map("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "LSP go to implementation" })
+map("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "LSP go to declaration" })
 
 map("n", "<leader>e", function()
   vim.cmd("NvimTreeFocus")
-  vim.cmd("only")
-end, { desc = "NvimTree full screen" })
+end, { desc = "Focus NvimTree" })
 
-map("n", "<leader>q", ":q<CR>", { desc = "Window commands" })
+map("n", "<leader>E", function()
+  require("nvim-tree.api").tree.find_file({ open = true, focus = true })
+end, { desc = "Reveal current file in NvimTree" })
+
+map("n", "<leader>q", function()
+  if vim.bo.buftype == "quickfix" then
+    local wininfo = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
+
+    if wininfo and wininfo.loclist == 1 then
+      vim.cmd "lclose"
+    else
+      vim.cmd "cclose"
+    end
+
+    return
+  end
+
+  require("nvchad.tabufline").close_buffer()
+end, { desc = "Close current buffer or list" })
+map("n", "<leader>Q", "<cmd>confirm q<CR>", { desc = "Quit current window" })
 
 map("n", "<leader>wh", "<C-w>h", { desc = "Move to left window" })
 map("n", "<leader>wj", "<C-w>j", { desc = "Move to bottom window" })
@@ -34,6 +71,10 @@ map("n", "<leader>ww", "<C-w>w", { desc = "Cycle windows" })
 
 map("n", "]q", ":cnext<CR>", { desc = "Next quickfix" })
 map("n", "[q", ":cprev<CR>", { desc = "Prev quickfix" })
+
+map("x", "<leader>y", function()
+  require("configs.copy_with_path").copy_visual_selection()
+end, { desc = "Copy selection with path" })
 
 -- Harpoon (favorites)
 map("n", "<leader>fa", function()

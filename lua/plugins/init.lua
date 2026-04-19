@@ -7,6 +7,36 @@ return {
 
   {
     "nvim-tree/nvim-tree.lua",
+    config = function(_, opts)
+      local OpenedFolderDecorator = require "configs.nvimtree_opened_dirs"
+
+      local function set_opened_node_highlight()
+        local colors = require("base46").get_theme_tb "base_30"
+        vim.api.nvim_set_hl(0, "NvimTreeOpenedHL", { bg = colors.one_bg3 })
+      end
+
+      opts.renderer = opts.renderer or {}
+      opts.renderer.decorators = {
+        "Git",
+        "Open",
+        OpenedFolderDecorator,
+        "Hidden",
+        "Modified",
+        "Bookmark",
+        "Diagnostics",
+        "Copied",
+        "Cut",
+      }
+
+      require("nvim-tree").setup(opts)
+      require("configs.nvimtree_session").setup()
+      set_opened_node_highlight()
+
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "NvThemeReload",
+        callback = set_opened_node_highlight,
+      })
+    end,
     opts = {
       on_attach = function(bufnr)
         local api = require "nvim-tree.api"
@@ -38,11 +68,22 @@ return {
         end, opts)
       end,
       view = {
-        width = "25%",
+        width = "20%",
+      },
+      renderer = {
+        highlight_opened_files = "name",
+      },
+      update_focused_file = {
+        enable = false,
+        update_root = false,
+      },
+      filters = {
+        git_ignored = false,
+        dotfiles = false,
       },
       actions = {
         open_file = {
-          quit_on_open = true,
+          quit_on_open = false,
         },
       },
     }
@@ -66,6 +107,17 @@ return {
       auto_restore_enabled = true,
       auto_save_enabled = true,
       auto_session_suppress_dirs = { "~/", "~/Downloads", "/" },
+      save_extra_data = function(session_name)
+        return require("configs.nvimtree_session").save_extra_data(session_name)
+      end,
+      restore_extra_data = function(session_name, extra_data)
+        require("configs.nvimtree_session").restore_extra_data(session_name, extra_data)
+      end,
+      post_restore_cmds = {
+        function()
+          require("configs.nvimtree_session").restore_if_needed()
+        end,
+      },
     },
   },
 

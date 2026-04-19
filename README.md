@@ -1,6 +1,6 @@
 # Neovim Configuration
 
-Personal Neovim configuration based on NvChad starter.
+Dark config
 
 ## Features
 
@@ -34,6 +34,11 @@ git clone https://github.com/dark0gf/neovim-config.git ~/.config/nvim
 ```
 
 Then start Neovim and let lazy.nvim install plugins automatically.
+
+Install LSP:
+```
+npm install -g typescript typescript-language-server pyright vscode-langservers-extracted
+```
 
 ## Based On
 

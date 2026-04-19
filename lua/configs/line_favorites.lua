@@ -134,7 +134,11 @@ function M.jump(slot)
     return
   end
 
-  vim.cmd("edit " .. vim.fn.fnameescape(favorite.file))
+  local current_file = vim.api.nvim_buf_get_name(0)
+  if current_file == "" or not same_file(current_file, favorite.file) then
+    vim.cmd("hide edit " .. vim.fn.fnameescape(favorite.file))
+  end
+
   local max_line = vim.api.nvim_buf_line_count(0)
   local target = math.max(1, math.min(favorite.line or 1, max_line))
   vim.api.nvim_win_set_cursor(0, { target, 0 })
