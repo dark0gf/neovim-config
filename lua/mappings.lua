@@ -3,6 +3,17 @@ require "nvchad.mappings"
 -- add yours here
 
 local map = vim.keymap.set
+local telescope_find_files = require "configs.telescope_find_files"
+
+-- NvChad Telescope find files:
+-- Space + f + f: find files
+-- Space + f + w: live grep
+-- Space + f + b: buffers
+-- Space + f + h: help tags
+map("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { desc = "Recent files" })
+map("n", "<leader>ff", telescope_find_files.find_files_space_wildcard, {
+  desc = "Find files (space = wildcard, case-insensitive)",
+})
 
 local function move_cursor_keep_screen_position(delta)
   local view = vim.fn.winsaveview()
@@ -21,8 +32,11 @@ end
 
 map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
+
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "Save file" })
 map("i", "<C-s>", "<Esc><cmd>w<CR>a", { desc = "Save file" })
+
+
 map("n", "<A-k>", function()
   move_cursor_keep_screen_position(-1)
 end, { desc = "Up one line, keep cursor screen position" })
@@ -36,6 +50,7 @@ map("n", "<leader>d", vim.lsp.buf.definition, { desc = "LSP go to definition" })
 map("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "LSP go to implementation" })
 map("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "LSP go to declaration" })
 
+-- nvim tree
 map("n", "<leader>e", function()
   vim.cmd("NvimTreeFocus")
 end, { desc = "Focus NvimTree" })
@@ -44,6 +59,7 @@ map("n", "<leader>E", function()
   require("nvim-tree.api").tree.find_file({ open = true, focus = true })
 end, { desc = "Reveal current file in NvimTree" })
 
+-- close buffer or quickfix list
 map("n", "<leader>q", function()
   if vim.bo.buftype == "quickfix" then
     local wininfo = vim.fn.getwininfo(vim.api.nvim_get_current_win())[1]
@@ -61,6 +77,8 @@ map("n", "<leader>q", function()
 end, { desc = "Close current buffer or list" })
 map("n", "<leader>Q", "<cmd>confirm q<CR>", { desc = "Quit current window" })
 
+
+-- winows layout
 map("n", "<leader>wh", "<C-w>h", { desc = "Move to left window" })
 map("n", "<leader>wj", "<C-w>j", { desc = "Move to bottom window" })
 map("n", "<leader>wk", "<C-w>k", { desc = "Move to top window" })
@@ -76,22 +94,9 @@ map("x", "<leader>y", function()
   require("configs.copy_with_path").copy_visual_selection()
 end, { desc = "Copy selection with path" })
 
--- Harpoon (favorites)
-map("n", "<leader>fa", function()
-  require("harpoon"):list():add()
-  vim.notify("Added to favorites", vim.log.levels.INFO)
-end, { desc = "Add file to favorites" })
 
-map("n", "<leader>fr", function()
-  require("harpoon"):list():remove()
-  vim.notify("Removed from favorites", vim.log.levels.INFO)
-end, { desc = "Remove file from favorites" })
 
-map("n", "<leader>ff", function()
-  local harpoon = require "harpoon"
-  harpoon.ui:toggle_quick_menu(harpoon:list())
-end, { desc = "Show favorites list" })
-
+-- line bookmarks
 local line_favorites = require "configs.line_favorites"
 line_favorites.setup()
 
@@ -107,6 +112,7 @@ for i, slot in ipairs(jump_slots) do
     line_favorites.jump(slot)
   end, { desc = "Go to line favorite " .. slot })
 end
+
 
 
 -- map({ "n", "i", "v" }, "<C-s>", "<cmd> w <cr>")

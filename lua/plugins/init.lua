@@ -13,6 +13,8 @@ return {
       local function set_opened_node_highlight()
         local colors = require("base46").get_theme_tb "base_30"
         vim.api.nvim_set_hl(0, "NvimTreeOpenedHL", { bg = colors.one_bg3 })
+        vim.api.nvim_set_hl(0, "NvimTreeGitDirtyIcon", { fg = colors.yellow })
+        vim.api.nvim_set_hl(0, "NvimTreeGitNewIcon", { fg = colors.green })
       end
 
       opts.renderer = opts.renderer or {}
@@ -23,7 +25,7 @@ return {
         "Hidden",
         "Modified",
         "Bookmark",
-        "Diagnostics",
+        -- "Diagnostics",  
         "Copied",
         "Cut",
       }
@@ -60,22 +62,42 @@ return {
             api.node.navigate.parent_close()
           end
         end, opts)
-
-        -- Toggle favorites-only filter in NvimTree
-        vim.keymap.set("n", "F", function()
-          local harpoon = require "harpoon"
-          harpoon.ui:toggle_quick_menu(harpoon:list())
-        end, opts)
       end,
       view = {
         width = "20%",
       },
       renderer = {
         highlight_opened_files = "name",
+        icons = {
+          show = {
+            file = false,
+            folder = false,
+            folder_arrow = true,
+            git = true,
+          },
+          glyphs = {
+            git = {
+              unstaged = "●",
+              staged = "✓",
+              unmerged = "",
+              renamed = "➜",
+              untracked = "★",
+              deleted = "",
+              ignored = "◌",
+            },
+          },
+        },
       },
       update_focused_file = {
         enable = false,
         update_root = false,
+      },
+      git = {
+        enable = true,
+        show_on_dirs = false,
+      },
+      diagnostics = {
+        enable = false,
       },
       filters = {
         git_ignored = false,
@@ -87,17 +109,6 @@ return {
         },
       },
     }
-  },
-
-  {
-    "ThePrimeagen/harpoon",
-    branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    lazy = false,
-    config = function()
-      local harpoon = require "harpoon"
-      harpoon:setup()
-    end,
   },
 
   {

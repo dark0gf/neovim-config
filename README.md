@@ -40,6 +40,11 @@ Install LSP:
 npm install -g typescript typescript-language-server pyright vscode-langservers-extracted
 ```
 
+Install RG:
+```
+sudo apt-get install -y ripgrep
+```
+
 ## Based On
 
 - [NvChad](https://github.com/NvChad/NvChad) - The base configuration framework

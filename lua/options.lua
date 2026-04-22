@@ -4,6 +4,7 @@ require "nvchad.options"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.o.selection = "exclusive"
 
 vim.opt.sessionoptions = {
 	"buffers",
@@ -17,7 +18,18 @@ vim.opt.sessionoptions = {
 }
 
 if vim.env.SSH_CLIENT or vim.env.SSH_TTY or vim.env.SSH_CONNECTION then
-	vim.g.clipboard = "osc52"
+	local osc52 = require "vim.ui.clipboard.osc52"
+	vim.g.clipboard = {
+		name = "OSC 52 (copy only)",
+		copy = {
+			["+"] = osc52.copy "+",
+			["*"] = osc52.copy "*",
+		},
+		paste = {
+			["+"] = function() end,
+			["*"] = function() end,
+		},
+	}
 	vim.opt.clipboard = "unnamedplus"
 end
 
