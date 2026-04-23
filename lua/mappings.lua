@@ -4,9 +4,6 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 local telescope_find_files = require "configs.telescope_find_files"
-local lsp_spinner = require "configs.lsp_spinner"
-
-lsp_spinner.setup()
 
 -- NvChad Telescope find files:
 -- Space + f + f: find files
@@ -73,7 +70,7 @@ map("n", "<C-A-j>", function()
 end, { desc = "Down 10 lines, keep cursor screen position" })
 
 -- Use LSP navigation (cross-file) instead of Vim's local-only defaults.
-map("n", "<leader>r", vim.lsp.buf.references, { desc = "LSP references" }) -- who uses this function
+map("n", "<leader>r", vim.lsp.buf.references, { desc = "LSP references" })
 map("n", "<leader>d", vim.lsp.buf.definition, { desc = "LSP go to definition" }) -- go deeper, into code if that function
 map("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "LSP go to implementation" })
 map("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "LSP go to declaration" })
