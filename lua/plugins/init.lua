@@ -65,6 +65,8 @@ return {
       end,
       view = {
         width = "20%",
+        number = false,
+        relativenumber = false,
       },
       renderer = {
         highlight_opened_files = "name",

@@ -41,6 +41,22 @@ local function move_10x(direction)
   vim.cmd("normal! " .. count .. direction)
 end
 
+local function focus_editor_window()
+  local current_win = vim.api.nvim_get_current_win()
+
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local config = vim.api.nvim_win_get_config(win)
+    local buf = vim.api.nvim_win_get_buf(win)
+    local filetype = vim.bo[buf].filetype
+    local buftype = vim.bo[buf].buftype
+
+    if win ~= current_win and config.relative == "" and filetype ~= "NvimTree" and buftype ~= "quickfix" then
+      vim.api.nvim_set_current_win(win)
+      return
+    end
+  end
+end
+
 map("n", "<C-h>", function()
   move_10x("h")
 end, { desc = "Left 10 chars" })
@@ -83,6 +99,8 @@ end, { desc = "Focus NvimTree" })
 map("n", "<leader>E", function()
   require("nvim-tree.api").tree.find_file({ open = true, focus = true })
 end, { desc = "Reveal current file in NvimTree" })
+
+map("n", "<leader>o", focus_editor_window, { desc = "Focus editor window" })
 
 -- close buffer or quickfix list
 map("n", "<leader>q", function()
@@ -130,8 +148,8 @@ local set_keys = { "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" }
 
 for i, slot in ipairs(jump_slots) do
   map("n", "<leader>" .. set_keys[i], function()
-    line_favorites.set(slot)
-  end, { desc = "Set line favorite " .. slot })
+    line_favorites.toggle(slot)
+  end, { desc = "Toggle line favorite " .. slot })
 
   map("n", "<leader>" .. slot, function()
     line_favorites.jump(slot)

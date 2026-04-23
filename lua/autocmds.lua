@@ -60,6 +60,12 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
 -- Force line numbers on after session restore
 vim.api.nvim_create_autocmd({ "SessionLoadPost", "BufEnter" }, {
 	callback = function()
+		if vim.bo.filetype == "NvimTree" then
+			vim.opt_local.number = false
+			vim.opt_local.relativenumber = false
+			return
+		end
+
 		vim.opt_local.number = true
 		vim.opt_local.relativenumber = true
 	end,

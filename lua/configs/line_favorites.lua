@@ -121,6 +121,33 @@ function M.set(slot)
   vim.notify("Saved line favorite " .. slot, vim.log.levels.INFO)
 end
 
+function M.remove(slot)
+  local line_favorites = load_line_favorites()
+  if not line_favorites[slot] then
+    vim.notify("Favorite " .. slot .. " is empty", vim.log.levels.WARN)
+    return
+  end
+
+  line_favorites[slot] = nil
+  save_line_favorites(line_favorites)
+  M.refresh_signs()
+  vim.notify("Removed line favorite " .. slot, vim.log.levels.INFO)
+end
+
+function M.toggle(slot)
+  local line_favorites = load_line_favorites()
+  local favorite = line_favorites[slot]
+  local current_file = vim.api.nvim_buf_get_name(0)
+  local current_line = vim.api.nvim_win_get_cursor(0)[1]
+
+  if favorite and favorite.file and favorite.line and same_file(favorite.file, current_file) and favorite.line == current_line then
+    M.remove(slot)
+    return
+  end
+
+  M.set(slot)
+end
+
 function M.jump(slot)
   local line_favorites = load_line_favorites()
   local favorite = line_favorites[slot]
