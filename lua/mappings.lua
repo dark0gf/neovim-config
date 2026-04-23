@@ -4,6 +4,9 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 local telescope_find_files = require "configs.telescope_find_files"
+local lsp_spinner = require "configs.lsp_spinner"
+
+lsp_spinner.setup()
 
 -- NvChad Telescope find files:
 -- Space + f + f: find files
@@ -36,6 +39,24 @@ map("i", "jk", "<ESC>")
 map("n", "<C-s>", "<cmd>w<CR>", { desc = "Save file" })
 map("i", "<C-s>", "<Esc><cmd>w<CR>a", { desc = "Save file" })
 
+local function move_10x(direction)
+  local count = vim.v.count1 * 10
+  vim.cmd("normal! " .. count .. direction)
+end
+
+map("n", "<C-h>", function()
+  move_10x("h")
+end, { desc = "Left 10 chars" })
+map("n", "<C-j>", function()
+  move_10x("j")
+end, { desc = "Down 10 lines" })
+map("n", "<C-k>", function()
+  move_10x("k")
+end, { desc = "Up 10 lines" })
+map("n", "<C-l>", function()
+  move_10x("l")
+end, { desc = "Right 10 chars" })
+
 
 map("n", "<A-k>", function()
   move_cursor_keep_screen_position(-1)
@@ -43,6 +64,13 @@ end, { desc = "Up one line, keep cursor screen position" })
 map("n", "<A-j>", function()
   move_cursor_keep_screen_position(1)
 end, { desc = "Down one line, keep cursor screen position" })
+
+map("n", "<C-A-k>", function()
+  move_cursor_keep_screen_position(-10)
+end, { desc = "Up 10 lines, keep cursor screen position" })
+map("n", "<C-A-j>", function()
+  move_cursor_keep_screen_position(10)
+end, { desc = "Down 10 lines, keep cursor screen position" })
 
 -- Use LSP navigation (cross-file) instead of Vim's local-only defaults.
 map("n", "<leader>r", vim.lsp.buf.references, { desc = "LSP references" }) -- who uses this function

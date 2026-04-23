@@ -5,6 +5,8 @@ require "nvchad.options"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.o.selection = "exclusive"
+vim.opt.timeout = true
+vim.opt.timeoutlen = 2000
 
 vim.opt.sessionoptions = {
 	"buffers",
