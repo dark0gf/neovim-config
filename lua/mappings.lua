@@ -4,6 +4,7 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 local telescope_find_files = require "configs.telescope_find_files"
+local line_history = require "configs.line_history"
 
 -- NvChad Telescope find files:
 -- Space + f + f: find files
@@ -71,6 +72,10 @@ map("n", "<C-l>", function()
 end, { desc = "Right 10 chars" })
 
 
+map("n", "<A-Left>", line_history.back, { desc = "Line history back" })
+map("n", "<A-Right>", line_history.forward, { desc = "Line history forward" })
+
+
 map("n", "<A-k>", function()
   move_cursor_keep_screen_position(-1)
 end, { desc = "Up one line, keep cursor screen position" })
@@ -86,8 +91,8 @@ map("n", "<C-A-j>", function()
 end, { desc = "Down 10 lines, keep cursor screen position" })
 
 -- Use LSP navigation (cross-file) instead of Vim's local-only defaults.
-map("n", "<leader>r", vim.lsp.buf.references, { desc = "LSP references" })
-map("n", "<leader>d", vim.lsp.buf.definition, { desc = "LSP go to definition" }) -- go deeper, into code if that function
+map("n", "<leader>r", vim.lsp.buf.references, { desc = "LSP references", nowait = true })
+map("n", "<leader>d", vim.lsp.buf.definition, { desc = "LSP go to definition", nowait = true }) -- go deeper, into code if that function
 map("n", "<leader>gi", vim.lsp.buf.implementation, { desc = "LSP go to implementation" })
 map("n", "<leader>gD", vim.lsp.buf.declaration, { desc = "LSP go to declaration" })
 
@@ -141,6 +146,7 @@ end, { desc = "Copy selection with path" })
 
 -- line bookmarks
 local line_favorites = require "configs.line_favorites"
+line_history.setup()
 line_favorites.setup()
 
 local jump_slots = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }

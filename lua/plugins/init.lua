@@ -142,6 +142,23 @@ return {
     end,
   },
 
+  {
+  "pmizio/typescript-tools.nvim",
+  ft = {
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+  },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+    "neovim/nvim-lspconfig",
+  },
+  opts = function()
+    return require "configs.typescript_tools"
+  end,
+  },
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 
