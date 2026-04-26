@@ -2,6 +2,7 @@ local M = {}
 
 local uv = vim.uv or vim.loop
 local debounce_ms = 250
+local min_line_delta = 30
 local max_entries = 1000
 
 local state = {
@@ -49,6 +50,22 @@ local function same_entry(a, b)
   return a ~= nil and b ~= nil and a.file == b.file and a.line == b.line
 end
 
+local function should_commit_entry(previous, entry)
+  if entry == nil then
+    return false
+  end
+
+  if previous == nil then
+    return true
+  end
+
+  if previous.file ~= entry.file then
+    return true
+  end
+
+  return math.abs(previous.line - entry.line) > min_line_delta
+end
+
 local function trim_history()
   while #state.entries > max_entries do
     table.remove(state.entries, 1)
@@ -89,6 +106,22 @@ local function flush_pending()
   commit_entry(pending)
 end
 
+local function checkpoint_current_location()
+  flush_pending()
+
+  local entry = get_current_entry()
+  if entry == nil then
+    return
+  end
+
+  local current = state.entries[state.index]
+  if same_entry(current, entry) then
+    return
+  end
+
+  commit_entry(entry)
+end
+
 local function schedule_commit(entry)
   state.pending = entry
   state.timer:stop()
@@ -114,11 +147,18 @@ local function track_current_location()
   end
 
   local current = state.entries[state.index]
-  if same_entry(current, entry) then
+  if same_entry(current, entry) or same_entry(state.pending, entry) then
     return
   end
 
-  schedule_commit(entry)
+  if state.pending ~= nil then
+    schedule_commit(entry)
+    return
+  end
+
+  if should_commit_entry(current, entry) then
+    schedule_commit(entry)
+  end
 end
 
 local function jump_to_entry(entry)
@@ -152,7 +192,7 @@ local function jump_to_entry(entry)
 end
 
 function M.back()
-  flush_pending()
+  checkpoint_current_location()
 
   if state.index <= 1 then
     vim.notify("No previous history", vim.log.levels.INFO)

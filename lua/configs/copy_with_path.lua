@@ -24,31 +24,6 @@ local function relative_path(root, path)
   return path
 end
 
-local function find_project_root(bufnr, file_path)
-  for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-    local root_dir = client.config.root_dir
-
-    if type(root_dir) == "string" and root_dir ~= "" then
-      root_dir = normalize_path(root_dir)
-
-      if file_path == root_dir or vim.startswith(file_path, root_dir .. path_sep) then
-        return root_dir
-      end
-    end
-  end
-
-  local git_dir = vim.fs.find(".git", {
-    path = vim.fs.dirname(file_path),
-    upward = true,
-  })[1]
-
-  if git_dir then
-    return normalize_path(vim.fs.dirname(git_dir))
-  end
-
-  return normalize_path(vim.uv.cwd() or vim.fn.getcwd())
-end
-
 local function get_visual_selection()
   local saved_register = {
     value = vim.fn.getreg("z"),
@@ -64,8 +39,7 @@ local function get_visual_selection()
 end
 
 function M.copy_visual_selection()
-  local bufnr = vim.api.nvim_get_current_buf()
-  local file_path = vim.api.nvim_buf_get_name(bufnr)
+  local file_path = vim.api.nvim_buf_get_name(0)
 
   if file_path == "" then
     vim.notify("Current buffer has no file path", vim.log.levels.WARN)
@@ -79,9 +53,8 @@ function M.copy_visual_selection()
   end
 
   file_path = normalize_path(file_path)
-
-  local root = find_project_root(bufnr, file_path)
-  local payload = "@" .. relative_path(root, file_path) .. "\n" .. selection
+  local cwd = normalize_path(vim.uv.cwd() or vim.fn.getcwd())
+  local payload = "@" .. relative_path(cwd, file_path) .. "\n" .. selection
 
   vim.fn.setreg('"', payload, "v")
   pcall(vim.fn.setreg, "+", payload, "v")

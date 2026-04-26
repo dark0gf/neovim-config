@@ -7,14 +7,35 @@ return {
 
   {
     "nvim-tree/nvim-tree.lua",
+    lazy = false,
     config = function(_, opts)
       local OpenedFolderDecorator = require "configs.nvimtree_opened_dirs"
+      local api = require "nvim-tree.api"
 
       local function set_opened_node_highlight()
         local colors = require("base46").get_theme_tb "base_30"
         vim.api.nvim_set_hl(0, "NvimTreeOpenedHL", { bg = colors.one_bg3 })
         vim.api.nvim_set_hl(0, "NvimTreeGitDirtyIcon", { fg = colors.yellow })
         vim.api.nvim_set_hl(0, "NvimTreeGitNewIcon", { fg = colors.green })
+      end
+
+      local function open_tree_on_startup()
+        if api.tree.is_visible() then
+          return
+        end
+
+        local current_buf = vim.api.nvim_get_current_buf()
+        local current_name = vim.api.nvim_buf_get_name(current_buf)
+
+        if vim.bo[current_buf].buftype ~= "" or current_name == "" then
+          return
+        end
+
+        vim.schedule(function()
+          if not api.tree.is_visible() then
+            api.tree.open({ focus = false })
+          end
+        end)
       end
 
       opts.renderer = opts.renderer or {}
@@ -33,6 +54,12 @@ return {
       require("nvim-tree").setup(opts)
       require("configs.nvimtree_session").setup()
       set_opened_node_highlight()
+
+      vim.api.nvim_create_autocmd("VimEnter", {
+        group = vim.api.nvim_create_augroup("NvimTreeOpenOnStartup", { clear = true }),
+        once = true,
+        callback = open_tree_on_startup,
+      })
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "NvThemeReload",
