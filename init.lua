@@ -38,6 +38,34 @@ end
 require "options"
 require "autocmds"
 
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = vim.api.nvim_create_augroup("OpenNvimTreeOnStartup", { clear = true }),
+  once = true,
+  callback = function()
+    local current_buf = vim.api.nvim_get_current_buf()
+    if vim.bo[current_buf].buftype ~= "" then
+      return
+    end
+
+    local current_win = vim.api.nvim_get_current_win()
+
+    vim.schedule(function()
+      require("lazy").load({ plugins = { "nvim-tree.lua" } })
+
+      local ok, api = pcall(require, "nvim-tree.api")
+      if not ok or api.tree.is_visible() then
+        return
+      end
+
+      vim.cmd "NvimTreeOpen"
+
+      if vim.api.nvim_win_is_valid(current_win) then
+        vim.api.nvim_set_current_win(current_win)
+      end
+    end)
+  end,
+})
+
 vim.schedule(function()
   require "mappings"
 end)

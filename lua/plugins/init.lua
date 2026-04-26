@@ -25,15 +25,19 @@ return {
         end
 
         local current_buf = vim.api.nvim_get_current_buf()
-        local current_name = vim.api.nvim_buf_get_name(current_buf)
+        local current_win = vim.api.nvim_get_current_win()
 
-        if vim.bo[current_buf].buftype ~= "" or current_name == "" then
+        if vim.bo[current_buf].buftype ~= "" then
           return
         end
 
         vim.schedule(function()
           if not api.tree.is_visible() then
-            api.tree.open({ focus = false })
+            vim.cmd "NvimTreeOpen"
+
+            if vim.api.nvim_win_is_valid(current_win) then
+              vim.api.nvim_set_current_win(current_win)
+            end
           end
         end)
       end
@@ -54,12 +58,6 @@ return {
       require("nvim-tree").setup(opts)
       require("configs.nvimtree_session").setup()
       set_opened_node_highlight()
-
-      vim.api.nvim_create_autocmd("VimEnter", {
-        group = vim.api.nvim_create_augroup("NvimTreeOpenOnStartup", { clear = true }),
-        once = true,
-        callback = open_tree_on_startup,
-      })
 
       vim.api.nvim_create_autocmd("User", {
         pattern = "NvThemeReload",
