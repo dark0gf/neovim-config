@@ -8,12 +8,15 @@ local line_history = require "configs.line_history"
 
 -- NvChad Telescope find files:
 -- Space + f + f: find files
--- Space + f + w: live grep
+-- Space + f + w: live grep (fixed-string first, regex fallback)
 -- Space + f + b: buffers
 -- Space + f + h: help tags
 map("n", "<leader>fr", "<cmd>Telescope oldfiles<CR>", { desc = "Recent files" })
 map("n", "<leader>ff", telescope_find_files.find_files_space_wildcard, {
   desc = "Find files (space = wildcard, case-insensitive)",
+})
+map("n", "<leader>fw", telescope_find_files.live_grep_fixed_or_regex, {
+  desc = "Live grep (fixed-string first, regex fallback)",
 })
 
 local function move_cursor_keep_screen_position(delta)
