@@ -74,6 +74,11 @@ map("n", "<C-l>", function()
   move_10x("l")
 end, { desc = "Right 10 chars" })
 
+map("x", "<C-h>", "10h", { desc = "Left 10 chars" })
+map("x", "<C-j>", "10j", { desc = "Down 10 lines" })
+map("x", "<C-k>", "10k", { desc = "Up 10 lines" })
+map("x", "<C-l>", "10l", { desc = "Right 10 chars" })
+
 
 map("n", "<A-Left>", line_history.back, { desc = "Line history back" })
 map("n", "<A-Right>", line_history.forward, { desc = "Line history forward" })
