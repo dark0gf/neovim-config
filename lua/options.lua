@@ -4,6 +4,8 @@ require "nvchad.options"
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.shiftwidth = 2
+vim.g.markdown_recommended_style = 0
 vim.o.selection = "exclusive"
 vim.opt.timeout = true
 vim.opt.updatetime = 300
