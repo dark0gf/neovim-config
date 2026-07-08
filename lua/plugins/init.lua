@@ -194,6 +194,7 @@ return {
   			"vim", "lua", "vimdoc",
         "html", "css",
         "javascript", "typescript", "tsx",
+        "python",
   		},
   	},
   },
