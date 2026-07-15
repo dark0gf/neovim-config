@@ -202,12 +202,15 @@ local function render_focus(lines, title, bufnr, tree_only)
         table.sort(entries, function(a, b)
           return a.pretty < b.pretty
         end)
-        table.insert(lines, "#### " .. domain)
+        table.insert(lines, "<details>")
+        table.insert(lines, string.format("<summary>%s (%d)</summary>", domain, #entries))
         table.insert(lines, "")
         for _, e in ipairs(entries) do
           local desc = e.desc:gsub("\n", " ")
           table.insert(lines, string.format("- `%s` — %s", e.pretty, desc))
         end
+        table.insert(lines, "")
+        table.insert(lines, "</details>")
         table.insert(lines, "")
       end
     end
