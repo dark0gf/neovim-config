@@ -6,14 +6,8 @@
 
 #### Bookmarks / History
 
-- `<leader>!` — Toggle line favorite 1
-- `<leader>#` — Toggle line favorite 3
-- `<leader>$` — Toggle line favorite 4
-- `<leader>%` — Toggle line favorite 5
-- `<leader>&` — Toggle line favorite 7
-- `<leader>(` — Toggle line favorite 9
-- `<leader>)` — Toggle line favorite 0
-- `<leader>*` — Toggle line favorite 8
+- `<alt>+<left>` — Line history back
+- `<alt>+<right>` — Line history forward
 - `<leader>0` — Go to line favorite 0
 - `<leader>1` — Go to line favorite 1
 - `<leader>2` — Go to line favorite 2
@@ -24,10 +18,16 @@
 - `<leader>7` — Go to line favorite 7
 - `<leader>8` — Go to line favorite 8
 - `<leader>9` — Go to line favorite 9
-- `<leader>@` — Toggle line favorite 2
-- `<leader>^` — Toggle line favorite 6
-- `<alt>+<left>` — Line history back
-- `<alt>+<right>` — Line history forward
+- `<leader><shift>+0` — Toggle line favorite 0
+- `<leader><shift>+1` — Toggle line favorite 1
+- `<leader><shift>+2` — Toggle line favorite 2
+- `<leader><shift>+3` — Toggle line favorite 3
+- `<leader><shift>+4` — Toggle line favorite 4
+- `<leader><shift>+5` — Toggle line favorite 5
+- `<leader><shift>+6` — Toggle line favorite 6
+- `<leader><shift>+7` — Toggle line favorite 7
+- `<leader><shift>+8` — Toggle line favorite 8
+- `<leader><shift>+9` — Toggle line favorite 9
 
 #### Buffers / Tabs
 
@@ -55,14 +55,14 @@
 
 #### LSP / Code
 
+- `<ctrl>+w<ctrl>+d` — Show diagnostics under the cursor
+- `<ctrl>+wd` — Show diagnostics under the cursor
 - `<leader>d` — LSP go to definition
 - `<leader>ds` — LSP diagnostic loclist
 - `<leader>fm` — general format file
 - `<leader>g<shift>+d` — LSP go to declaration
 - `<leader>gi` — LSP go to implementation
 - `<leader>r` — LSP references
-- `<ctrl>+w<ctrl>+d` — Show diagnostics under the cursor
-- `<ctrl>+wd` — Show diagnostics under the cursor
 - `[<shift>+d` — Jump to the first diagnostic in the current buffer
 - `[d` — Jump to the previous diagnostic in the current buffer
 - `]<shift>+d` — Jump to the last diagnostic in the current buffer
@@ -77,30 +77,30 @@
 
 #### Navigation / Movement
 
-- `<leader>n` — toggle line number
-- `<ctrl>+h` — Left 10 chars
-- `<ctrl>+j` — Down 10 lines
-- `<ctrl>+k` — Up 10 lines
-- `<ctrl>+l` — Right 10 chars
 - `<alt>+<ctrl>+j` — Down 10 lines, keep cursor screen position
 - `<alt>+<ctrl>+k` — Up 10 lines, keep cursor screen position
 - `<alt>+j` — Down one line, keep cursor screen position
 - `<alt>+k` — Up one line, keep cursor screen position
+- `<ctrl>+h` — Left 10 chars
+- `<ctrl>+j` — Down 10 lines
+- `<ctrl>+k` — Up 10 lines
+- `<ctrl>+l` — Right 10 chars
+- `<leader>n` — toggle line number
 - `[<space>` — Add empty line above cursor
 - `]<space>` — Add empty line below cursor
 
 #### Other
 
-- `<leader>` — <lua function>
-- `<leader>ch` — toggle nvcheatsheet
-- `<leader>rn` — toggle relative number
-- `<leader>w<shift>+k` — whichkey all keymaps
-- `"` — <lua function>
-- `&` — :help &-default
 - `'` — <lua function>
 - `;` — CMD enter command mode
 - `<ctrl>+w` — <lua function>
 - `<esc>` — general clear highlights
+- `<leader>` — <lua function>
+- `<leader>ch` — toggle nvcheatsheet
+- `<leader>rn` — toggle relative number
+- `<leader>w<shift>+k` — whichkey all keymaps
+- `<shift>+'` — <lua function>
+- `<shift>+7` — :help &-default
 - `<shift>+y` — :help Y-default
 - `[<ctrl>+l` — :lpfile
 - `[<ctrl>+q` — :cpfile
@@ -158,14 +158,15 @@
 
 #### Terminal
 
-- `<leader>h` — terminal new horizontal term
-- `<leader>v` — terminal new vertical term
 - `<alt>+h` — terminal toggleable horizontal term
 - `<alt>+i` — terminal toggle floating term
 - `<alt>+v` — terminal toggleable vertical term
+- `<leader>h` — terminal new horizontal term
+- `<leader>v` — terminal new vertical term
 
 #### Windows / Splits
 
+- `<ctrl>+n` — nvimtree toggle window
 - `<leader><shift>+q` — Quit current window
 - `<leader>o` — Focus editor window
 - `<leader>wh` — Move to left window
@@ -175,7 +176,6 @@
 - `<leader>ws` — Split window horizontal
 - `<leader>wv` — Split window vertical
 - `<leader>ww` — Cycle windows
-- `<ctrl>+n` — nvimtree toggle window
 
 ### Mode: Edit (insert)
 
@@ -222,10 +222,10 @@
 
 #### LSP / Code
 
-- `<leader>fm` — general format file
-- `<leader>fm` — general format file
 - `<ctrl>+s` — vim.lsp.buf.signature_help()
 - `<ctrl>+s` — vim.lsp.buf.signature_help()
+- `<leader>fm` — general format file
+- `<leader>fm` — general format file
 - `gra` — vim.lsp.buf.code_action()
 - `gra` — vim.lsp.buf.code_action()
 
@@ -246,12 +246,12 @@
 
 #### Other
 
-- `#` — :help v_#-default
-- `#` — :help v_#-default
-- `*` — :help v_star-default
-- `*` — :help v_star-default
-- `@` — :help v_@-default
-- `@` — :help v_@-default
+- `<shift>+2` — :help v_@-default
+- `<shift>+2` — :help v_@-default
+- `<shift>+3` — :help v_#-default
+- `<shift>+3` — :help v_#-default
+- `<shift>+8` — :help v_star-default
+- `<shift>+8` — :help v_star-default
 - `<shift>+q` — :help v_Q-default
 - `<shift>+q` — :help v_Q-default
 - `[n` — Select previous node
@@ -267,10 +267,10 @@
 
 #### Terminal
 
-- `<ctrl>+x` — terminal escape terminal mode
 - `<alt>+h` — terminal toggleable horizontal term
 - `<alt>+i` — terminal toggle floating term
 - `<alt>+v` — terminal toggleable vertical term
+- `<ctrl>+x` — terminal escape terminal mode
 
 ### Mode: Operator
 
@@ -307,15 +307,13 @@
 - `<2-leftmouse>` — nvim-tree: Open
 - `<2-rightmouse>` — nvim-tree: CD
 - `<bs>` — nvim-tree: Close Directory
+- `<cr>` — nvim-tree: Open
+- `<ctrl>+]` — nvim-tree: CD
 - `<ctrl>+e` — nvim-tree: Open: In Place
 - `<ctrl>+k` — nvim-tree: Info
 - `<ctrl>+t` — nvim-tree: Open: New Tab
-- `<ctrl>+]` — nvim-tree: CD
-- `<cr>` — nvim-tree: Open
 - `<del>` — nvim-tree: Delete
-- `<tab>` — nvim-tree: Open Preview
 - `<lt>` — nvim-tree: Previous Sibling
-- `>` — nvim-tree: Next Sibling
 - `<shift>+d` — nvim-tree: Trash
 - `<shift>+e` — nvim-tree: Expand All
 - `<shift>+f` — nvim-tree: Live Filter: Clear
@@ -328,13 +326,15 @@
 - `<shift>+r` — nvim-tree: Refresh
 - `<shift>+u` — nvim-tree: Toggle Filter: Custom
 - `<shift>+w` — nvim-tree: Collapse All
+- `<tab>` — nvim-tree: Open Preview
+- `>` — nvim-tree: Next Sibling
 - `a` — nvim-tree: Create File Or Directory
 - `bd` — nvim-tree: Delete Bookmarked
 - `bmv` — nvim-tree: Move Bookmarked
 - `bt` — nvim-tree: Trash Bookmarked
 - `d` — nvim-tree: Delete
 - `f` — nvim-tree: Live Filter: Start
-- `g?` — nvim-tree: Help
+- `g<shift>+/` — nvim-tree: Help
 - `m` — nvim-tree: Toggle Bookmark
 - `o` — nvim-tree: Open
 - `q` — nvim-tree: Close

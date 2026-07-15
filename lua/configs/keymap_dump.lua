@@ -46,6 +46,14 @@ end
 -- nvim normalizes <A-...> to <M-...>, so both map to "alt".
 local MOD_MAP = { C = "ctrl", A = "alt", M = "alt", S = "shift", D = "cmd", T = "meta" }
 
+-- US-layout shifted symbols -> their unshifted base key.
+local SHIFT_SYM = {
+  ["!"] = "1", ["@"] = "2", ["#"] = "3", ["$"] = "4", ["%"] = "5",
+  ["^"] = "6", ["&"] = "7", ["*"] = "8", ["("] = "9", [")"] = "0",
+  ["_"] = "-", ["+"] = "=", ["{"] = "[", ["}"] = "]", ["|"] = "\\",
+  [":"] = ";", ['"'] = "'", ["?"] = "/", ["~"] = "`",
+}
+
 local function split_dash(s)
   local out = {}
   for part in (s .. "-"):gmatch("(.-)%-") do
@@ -113,6 +121,9 @@ local function pretty_lhs(lhs)
       i = i + 1
     elseif c:match("%u") then
       out[#out + 1] = "<shift>+" .. c:lower()
+      i = i + 1
+    elseif SHIFT_SYM[c] then
+      out[#out + 1] = "<shift>+" .. SHIFT_SYM[c]
       i = i + 1
     else
       out[#out + 1] = c
@@ -189,7 +200,7 @@ local function render_focus(lines, title, bufnr, tree_only)
       for _, domain in ipairs(domains) do
         local entries = by_domain[domain]
         table.sort(entries, function(a, b)
-          return a.lhs < b.lhs
+          return a.pretty < b.pretty
         end)
         table.insert(lines, "#### " .. domain)
         table.insert(lines, "")
