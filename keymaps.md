@@ -4,7 +4,8 @@
 
 ### Mode: Normal
 
-#### Bookmarks / History
+<details>
+<summary>Bookmarks / History (22)</summary>
 
 - `<alt>+<left>` — Line history back
 - `<alt>+<right>` — Line history forward
@@ -29,7 +30,10 @@
 - `<leader><shift>+8` — Toggle line favorite 8
 - `<leader><shift>+9` — Toggle line favorite 9
 
-#### Buffers / Tabs
+</details>
+
+<details>
+<summary>Buffers / Tabs (5)</summary>
 
 - `<leader>b` — buffer new
 - `<leader>q` — Close current buffer or list
@@ -37,23 +41,35 @@
 - `<shift>+<tab>` — buffer goto prev
 - `<tab>` — buffer goto next
 
-#### Comment
+</details>
+
+<details>
+<summary>Comment (3)</summary>
 
 - `<leader>/` — toggle comment
 - `gc` — Toggle comment
 - `gcc` — Toggle comment line
 
-#### Copy / Paste / Registers
+</details>
+
+<details>
+<summary>Copy / Paste / Registers (1)</summary>
 
 - `<ctrl>+c` — general copy whole file
 
-#### File Tree
+</details>
+
+<details>
+<summary>File Tree (3)</summary>
 
 - `<leader><shift>+e` — Reveal current file in NvimTree
 - `<leader>e` — Focus NvimTree
 - `gx` — Opens filepath or URI under cursor with the system handler (file explorer, web browser, …)
 
-#### LSP / Code
+</details>
+
+<details>
+<summary>LSP / Code (19)</summary>
 
 - `<ctrl>+w<ctrl>+d` — Show diagnostics under the cursor
 - `<ctrl>+wd` — Show diagnostics under the cursor
@@ -75,7 +91,10 @@
 - `grt` — vim.lsp.buf.type_definition()
 - `grx` — vim.lsp.codelens.run()
 
-#### Navigation / Movement
+</details>
+
+<details>
+<summary>Navigation / Movement (11)</summary>
 
 - `<alt>+<ctrl>+j` — Down 10 lines, keep cursor screen position
 - `<alt>+<ctrl>+k` — Up 10 lines, keep cursor screen position
@@ -89,7 +108,10 @@
 - `[<space>` — Add empty line above cursor
 - `]<space>` — Add empty line below cursor
 
-#### Other
+</details>
+
+<details>
+<summary>Other (39)</summary>
 
 - `'` — <lua function>
 - `;` — CMD enter command mode
@@ -131,16 +153,25 @@
 - `g` — <lua function>
 - `v` — <lua function>
 
-#### Quickfix / Lists
+</details>
+
+<details>
+<summary>Quickfix / Lists (2)</summary>
 
 - `[q` — Prev quickfix
 - `]q` — Next quickfix
 
-#### Save / Quit
+</details>
+
+<details>
+<summary>Save / Quit (1)</summary>
 
 - `<ctrl>+s` — Save file
 
-#### Search / Find
+</details>
+
+<details>
+<summary>Search / Find (13)</summary>
 
 - `<leader>cm` — telescope git commits
 - `<leader>fa` — telescope find all files
@@ -156,7 +187,10 @@
 - `<leader>pt` — telescope pick hidden term
 - `<leader>th` — telescope nvchad themes
 
-#### Terminal
+</details>
+
+<details>
+<summary>Terminal (5)</summary>
 
 - `<alt>+h` — terminal toggleable horizontal term
 - `<alt>+i` — terminal toggle floating term
@@ -164,7 +198,10 @@
 - `<leader>h` — terminal new horizontal term
 - `<leader>v` — terminal new vertical term
 
-#### Windows / Splits
+</details>
+
+<details>
+<summary>Windows / Splits (10)</summary>
 
 - `<ctrl>+n` — nvimtree toggle window
 - `<leader><shift>+q` — Quit current window
@@ -177,9 +214,12 @@
 - `<leader>wv` — Split window vertical
 - `<leader>ww` — Cycle windows
 
+</details>
+
 ### Mode: Edit (insert)
 
-#### Navigation / Movement
+<details>
+<summary>Navigation / Movement (8)</summary>
 
 - `<ctrl>+b` — move beginning of line
 - `<ctrl>+e` — move end of line
@@ -190,19 +230,28 @@
 - `<shift>+<tab>` — vim.snippet.jump if active, otherwise <S-Tab>
 - `<tab>` — vim.snippet.jump if active, otherwise <Tab>
 
-#### Other
+</details>
+
+<details>
+<summary>Other (3)</summary>
 
 - `<ctrl>+u` — :help i_CTRL-U-default
 - `<ctrl>+w` — :help i_CTRL-W-default
 - `jk` — <Esc>
 
-#### Save / Quit
+</details>
+
+<details>
+<summary>Save / Quit (1)</summary>
 
 - `<ctrl>+s` — Save file
 
+</details>
+
 ### Mode: Select (visual)
 
-#### Comment
+<details>
+<summary>Comment (5)</summary>
 
 - `<leader>/` — toggle comment
 - `<leader>/` — toggle comment
@@ -210,17 +259,26 @@
 - `gc` — Toggle comment
 - `gc` — Toggle comment
 
-#### Copy / Paste / Registers
+</details>
+
+<details>
+<summary>Copy / Paste / Registers (2)</summary>
 
 - `<leader>y` — Copy selection with path
 - `<leader>y` — Copy selection with path
 
-#### File Tree
+</details>
+
+<details>
+<summary>File Tree (2)</summary>
 
 - `gx` — Opens filepath or URI under cursor with the system handler (file explorer, web browser, …)
 - `gx` — Opens filepath or URI under cursor with the system handler (file explorer, web browser, …)
 
-#### LSP / Code
+</details>
+
+<details>
+<summary>LSP / Code (6)</summary>
 
 - `<ctrl>+s` — vim.lsp.buf.signature_help()
 - `<ctrl>+s` — vim.lsp.buf.signature_help()
@@ -229,7 +287,10 @@
 - `gra` — vim.lsp.buf.code_action()
 - `gra` — vim.lsp.buf.code_action()
 
-#### Navigation / Movement
+</details>
+
+<details>
+<summary>Navigation / Movement (12)</summary>
 
 - `<ctrl>+h` — Left 10 chars
 - `<ctrl>+h` — Left 10 chars
@@ -244,7 +305,10 @@
 - `<tab>` — vim.snippet.jump if active, otherwise <Tab>
 - `<tab>` — vim.snippet.jump if active, otherwise <Tab>
 
-#### Other
+</details>
+
+<details>
+<summary>Other (16)</summary>
 
 - `<shift>+2` — :help v_@-default
 - `<shift>+2` — :help v_@-default
@@ -262,36 +326,51 @@
 - `an` — Select parent (outer) node
 - `in` — Select child (inner) node
 - `in` — Select child (inner) node
+
+</details>
 
 ### Mode: Terminal
 
-#### Terminal
+<details>
+<summary>Terminal (4)</summary>
 
 - `<alt>+h` — terminal toggleable horizontal term
 - `<alt>+i` — terminal toggle floating term
 - `<alt>+v` — terminal toggleable vertical term
 - `<ctrl>+x` — terminal escape terminal mode
 
+</details>
+
 ### Mode: Operator
 
-#### Comment
+<details>
+<summary>Comment (1)</summary>
 
 - `gc` — Comment textobject
 
-#### Other
+</details>
+
+<details>
+<summary>Other (2)</summary>
 
 - `an` — Select parent (outer) node
 - `in` — Select child (inner) node
+
+</details>
 
 ## Focus: Tree (NvimTree)
 
 ### Mode: Normal
 
-#### Buffers / Tabs
+<details>
+<summary>Buffers / Tabs (1)</summary>
 
 - `<shift>+b` — nvim-tree: Toggle Filter: No Buffer
 
-#### Copy / Paste / Registers
+</details>
+
+<details>
+<summary>Copy / Paste / Registers (6)</summary>
 
 - `<shift>+y` — nvim-tree: Copy Relative Path
 - `c` — nvim-tree: Copy
@@ -300,7 +379,10 @@
 - `p` — nvim-tree: Paste
 - `y` — nvim-tree: Copy Name
 
-#### File Tree
+</details>
+
+<details>
+<summary>File Tree (38)</summary>
 
 - `-` — nvim-tree: Up
 - `.` — nvim-tree: Run Command
@@ -341,14 +423,20 @@
 - `s` — nvim-tree: Run System
 - `x` — nvim-tree: Cut
 
-#### Git
+</details>
+
+<details>
+<summary>Git (4)</summary>
 
 - `<shift>+c` — nvim-tree: Toggle Filter: Git Clean
 - `<shift>+i` — nvim-tree: Toggle Filter: Git Ignored
 - `[c` — nvim-tree: Prev Git
 - `]c` — nvim-tree: Next Git
 
-#### LSP / Code
+</details>
+
+<details>
+<summary>LSP / Code (6)</summary>
 
 - `<ctrl>+r` — nvim-tree: Rename: Omit Filename
 - `[e` — nvim-tree: Prev Diagnostic
@@ -357,29 +445,44 @@
 - `r` — nvim-tree: Rename
 - `u` — nvim-tree: Rename: Full Path
 
-#### Other
+</details>
+
+<details>
+<summary>Other (2)</summary>
 
 - `h` — <lua function>
 - `l` — <lua function>
 
-#### Search / Find
+</details>
+
+<details>
+<summary>Search / Find (1)</summary>
 
 - `<shift>+s` — nvim-tree: Search
 
-#### Windows / Splits
+</details>
+
+<details>
+<summary>Windows / Splits (3)</summary>
 
 - `<ctrl>+v` — nvim-tree: Open: Vertical Split
 - `<ctrl>+x` — nvim-tree: Open: Horizontal Split
 - `<shift>+o` — nvim-tree: Open: No Window Picker
 
+</details>
+
 ### Mode: Select (visual)
 
-#### Copy / Paste / Registers
+<details>
+<summary>Copy / Paste / Registers (2)</summary>
 
 - `c` — nvim-tree: Copy
 - `c` — nvim-tree: Copy
 
-#### File Tree
+</details>
+
+<details>
+<summary>File Tree (10)</summary>
 
 - `<del>` — nvim-tree: Delete
 - `<del>` — nvim-tree: Delete
@@ -391,4 +494,6 @@
 - `m` — nvim-tree: Toggle Bookmark
 - `x` — nvim-tree: Cut
 - `x` — nvim-tree: Cut
+
+</details>
 
