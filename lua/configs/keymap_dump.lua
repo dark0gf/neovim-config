@@ -42,7 +42,87 @@ local function classify(lhs, desc)
   return "Other"
 end
 
--- Normalize a raw keymap entry into { lhs, desc }, or nil to skip it.
+-- Modifier prefixes inside <...> tokens -> readable names.
+-- nvim normalizes <A-...> to <M-...>, so both map to "alt".
+local MOD_MAP = { C = "ctrl", A = "alt", M = "alt", S = "shift", D = "cmd", T = "meta" }
+
+local function split_dash(s)
+  local out = {}
+  for part in (s .. "-"):gmatch("(.-)%-") do
+    out[#out + 1] = part
+  end
+  return out
+end
+
+-- Render one key token (the part after modifiers inside <...>).
+local function render_key(key)
+  if #key == 0 then
+    return ""
+  end
+  if #key == 1 then
+    -- single char: letters lowercased, symbols kept as-is
+    return key:match("%a") and key:lower() or key
+  end
+  -- named key: <cr>, <tab>, <left>, <f5>, ...
+  return "<" .. key:lower() .. ">"
+end
+
+-- Render the inside of a <...> token: <C-A-k> -> <ctrl>+<alt>+k
+local function render_bracket(inner)
+  local parts = split_dash(inner)
+  if #parts <= 1 then
+    -- no modifiers: <CR>, <Tab>, <Left>, or a lone char
+    return render_key(inner)
+  end
+  local pieces = {}
+  local i = 1
+  while i < #parts and MOD_MAP[parts[i]] do
+    pieces[#pieces + 1] = "<" .. MOD_MAP[parts[i]] .. ">"
+    i = i + 1
+  end
+  local key = table.concat({ unpack(parts, i) }, "-")
+  pieces[#pieces + 1] = render_key(key)
+  return table.concat(pieces, "+")
+end
+
+-- Turn a raw lhs into readable keys.
+-- Leader -> <leader>, <C-x> -> <ctrl>+x, capitals -> <shift>+<char>, space -> <space>.
+local function pretty_lhs(lhs)
+  local out = {}
+  local leader = vim.g.mapleader
+  local rest = lhs
+  if type(leader) == "string" and #leader > 0 and rest:sub(1, #leader) == leader then
+    out[#out + 1] = "<leader>"
+    rest = rest:sub(#leader + 1)
+  end
+
+  local i, n = 1, #rest
+  while i <= n do
+    local c = rest:sub(i, i)
+    if c == "<" then
+      local close = rest:find(">", i + 1, true)
+      if close then
+        out[#out + 1] = render_bracket(rest:sub(i + 1, close - 1))
+        i = close + 1
+      else
+        out[#out + 1] = c
+        i = i + 1
+      end
+    elseif c == " " then
+      out[#out + 1] = "<space>"
+      i = i + 1
+    elseif c:match("%u") then
+      out[#out + 1] = "<shift>+" .. c:lower()
+      i = i + 1
+    else
+      out[#out + 1] = c
+      i = i + 1
+    end
+  end
+  return table.concat(out)
+end
+
+-- Normalize a raw keymap entry into { lhs, pretty, desc }, or nil to skip it.
 local function normalize(km)
   local lhs = km.lhs or ""
   if lhs == "" or lhs:find("^<Plug>") or lhs:find("^<SNR>") then
@@ -52,7 +132,7 @@ local function normalize(km)
   if not desc or desc == "" then
     desc = km.rhs or (km.callback and "<lua function>") or ""
   end
-  return { lhs = lhs, desc = desc }
+  return { lhs = lhs, pretty = pretty_lhs(lhs), desc = desc }
 end
 
 -- Collect maps for one mode-group from a source (global or a buffer).
@@ -115,7 +195,7 @@ local function render_focus(lines, title, bufnr, tree_only)
         table.insert(lines, "")
         for _, e in ipairs(entries) do
           local desc = e.desc:gsub("\n", " ")
-          table.insert(lines, string.format("- `%s` — %s", e.lhs, desc))
+          table.insert(lines, string.format("- `%s` — %s", e.pretty, desc))
         end
         table.insert(lines, "")
       end
