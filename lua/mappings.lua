@@ -157,6 +157,9 @@ local line_favorites = require "configs.line_favorites"
 line_history.setup()
 line_favorites.setup()
 
+-- :KeymapDoc -> dump all keymaps grouped by focus/mode/domain
+require("configs.keymap_dump").setup()
+
 local jump_slots = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }
 local set_keys = { "!", "@", "#", "$", "%", "^", "&", "*", "(", ")" }
 
